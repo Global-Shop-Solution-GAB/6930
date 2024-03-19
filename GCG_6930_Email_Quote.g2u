@@ -1,0 +1,650 @@
+﻿Program.Sub.ScreenSU.Start
+Gui.F_ContactList..create
+Gui.F_ContactList..caption("Email Quick Quote")
+Gui.F_ContactList..size(7485,9225)
+Gui.F_ContactList..position(0,0)
+Gui.F_ContactList..event(UnLoad,f_contactlist_unload)
+Gui.F_ContactList..forecolor(0)
+Gui.F_ContactList..BackColor(-2147483633)
+Gui.F_ContactList..mousepointer(0)
+Gui.F_ContactList..MinX(0)
+Gui.F_ContactList..MinY(0)
+Gui.F_ContactList..ContextMenuCreate("files")
+Gui.F_ContactList..ContextMenuAddItem("files","O",0,"Open")
+Gui.F_ContactList..ContextMenuAddItem("files","D",0,"Delete")
+Gui.F_ContactList..ContextMenuSetItemEventHandler("files","O","open_file")
+Gui.F_ContactList..ContextMenuSetItemEventHandler("files","D","delete_file")
+Gui.F_ContactList.txtEmail.create(textbox,"",True,3690,300,0,100,1200,True,0,Arial,8,-2147483643,1)
+Gui.F_ContactList.txtEmail.tabstop(True)
+Gui.F_ContactList.txtEmail.tabindex(2)
+Gui.F_ContactList.cboContact.create(combobox)
+Gui.F_ContactList.cboContact.size(3690,330)
+Gui.F_ContactList.cboContact.position(105,495)
+Gui.F_ContactList.cboContact.event(Click,cbocontact_click)
+Gui.F_ContactList.cboContact.tabstop(True)
+Gui.F_ContactList.cboContact.tabindex(1)
+Gui.F_ContactList.cmdAdd.create(button)
+Gui.F_ContactList.cmdAdd.caption("Add")
+Gui.F_ContactList.cmdAdd.size(840,375)
+Gui.F_ContactList.cmdAdd.position(100,1600)
+Gui.F_ContactList.cmdAdd.event(Click,cmdadd_click)
+Gui.F_ContactList.cmdAdd.tabstop(True)
+Gui.F_ContactList.cmdAdd.tabindex(3)
+Gui.F_ContactList.cmdRemove.create(button)
+Gui.F_ContactList.cmdRemove.caption("Remove")
+Gui.F_ContactList.cmdRemove.size(900,375)
+Gui.F_ContactList.cmdRemove.position(1095,1605)
+Gui.F_ContactList.cmdRemove.event(Click,cmdremove_click)
+Gui.F_ContactList.cmdRemove.tabstop(True)
+Gui.F_ContactList.cmdRemove.tabindex(5)
+Gui.F_ContactList.lbl1.create(label,"Choose an existing contact",True,2565,255,1,100,300,True,0,Arial,8,-2147483633,0)
+Gui.F_ContactList.lbl2.create(label,"Enter an email address",True,2850,255,1,100,1000,True,0,Arial,8,-2147483633,0)
+Gui.F_ContactList.cmdSend.create(button)
+Gui.F_ContactList.cmdSend.caption("Send")
+Gui.F_ContactList.cmdSend.size(855,360)
+Gui.F_ContactList.cmdSend.position(105,5655)
+Gui.F_ContactList.cmdSend.event(Click,cmdsend_click)
+Gui.F_ContactList.cmdSend.tabstop(True)
+Gui.F_ContactList.cmdSend.tabindex(8)
+Gui.F_ContactList.mltxtBody.create(textboxm)
+Gui.F_ContactList.mltxtBody.size(6915,2595)
+Gui.F_ContactList.mltxtBody.position(105,2985)
+Gui.F_ContactList.mltxtBody.tabstop(True)
+Gui.F_ContactList.mltxtBody.tabindex(7)
+Gui.F_ContactList.txtSubject.create(textbox,"",True,6930,300,0,90,2370,True,0,Arial,8,-2147483643,1)
+Gui.F_ContactList.txtSubject.maxLength(72)
+Gui.F_ContactList.txtSubject.tabstop(True)
+Gui.F_ContactList.txtSubject.tabindex(6)
+Gui.F_ContactList.lbl3.create(label,"Subject",True,1935,255,1,105,2145,True,0,Arial,8,-2147483633,0)
+Gui.F_ContactList.lbl4.create(label,"Body",True,1935,255,1,105,2760,True,0,Arial,8,-2147483633,0)
+Gui.F_ContactList.lbl5.create(label,"Recipients",True,1935,255,1,4000,300,True,0,Arial,8,-2147483633,0)
+Gui.F_ContactList.cmdAttach.Create(Button)
+Gui.F_ContactList.cmdAttach.Size(1665,375)
+Gui.F_ContactList.cmdAttach.Position(2520,6000)
+Gui.F_ContactList.cmdAttach.Caption("Add Attachment")
+Gui.F_ContactList.cmdAttach.Event(Click,cmdAttach_Click)
+Gui.F_ContactList.lblAttach.Create(Label,"Attachments",True,1935,255,0,135,6165,True,0,"Arial",8,-2147483633,0)
+Gui.F_ContactList.ggcAttach.Create(GsGridControl)
+Gui.F_ContactList.ggcAttach.Size(6915,2085)
+Gui.F_ContactList.ggcAttach.Position(135,6420)
+Gui.F_ContactList.ggcAttach.Event(RowClick,ggcAttach_RowClick)
+Gui.F_ContactList.txtDrop.Create(TextBox,"Drop Files Here To Attach",True,2595,300,0,4380,6075,True,0,"Arial",8,-2147483643,1)
+Gui.F_ContactList.txtDrop.DefaultValue("Drop Files Here To Attach")
+Gui.F_ContactList.lvwEmails.Create(ListView)
+Gui.F_ContactList.lvwEmails.Size(2880,1020)
+Gui.F_ContactList.lvwEmails.Position(4095,510)
+Gui.F_ContactList.lvwEmails.View(2)
+Program.Sub.ScreenSU.End
+
+Program.Sub.Preflight.Start
+'Variable.Global.sCompNo.Declare
+'Variable.Global.sCompType.Declare
+Variable.Global.sList.Declare
+Variable.Global.sPO.Declare
+Variable.Global.sCustPO.Declare
+Variable.Global.sVendor.Declare
+Variable.Global.sFileAdd.Declare
+Variable.Global.sAttachPath.Declare
+Variable.Global.sContact.Declare
+Variable.Global.sSig.Declare
+Variable.Global.sCustName.Declare
+Variable.Global.sCust.Declare
+Variable.Global.sQuote.Declare
+Variable.Global.sType.Declare
+Variable.Global.iMaxAltID.Declare
+Variable.Global.sEmail.Declare
+v.Global.iRow.Declare
+
+f.Data.DataTable.Create("attachments",True)
+f.Data.DataTable.AddColumn("attachments","FILE","STRING")
+F.Data.DataTable.AddColumn("attachments","PATH","STRING")
+f.Data.DataTable.AddColumn("attachments","EXTENSION","STRING")
+f.Data.DataTable.AddColumn("attachments","FILEFQN","STRING")
+f.Data.DataTable.AddColumn("attachments","SORTKEY","LONG")
+
+
+Program.External.Include.Library("GCG_6930_SETUP.LIB")
+Program.Sub.Preflight.End
+
+Program.Sub.Main.Start
+'TJS, October 2022
+'Customer: Metal Zinc
+'Quote 13718
+'No work done to this program.  Simply changing the ARC ID to keep the overall project together
+'Hook 10850
+f.Intrinsic.Control.Try
+v.local.serror.declare
+
+'this sub is in the library file.  It checks to make sure the directorys and template files have been created.
+f.Intrinsic.Control.CallSub(CheckDirs)
+
+gui.F_ContactList.txtDrop.Event("DRAGDROPFILE",DragDrop)
+
+F.ODBC.Connection!con.OpenConnection(V.Ambient.PDSN,V.Ambient.PUser,V.Ambient.PPass)
+
+
+'Get values from GSS
+V.Global.sCust.Set(V.Passed.000006)
+V.Global.sQuote.Set(V.Passed.000003)
+v.Global.sContact.Set(v.Passed.000001)
+V.Global.sEmail.Set(v.Passed.000071)
+V.Global.sType.Set("C")
+
+'Set override flag
+V.Passed.777777.Set(1)
+
+V.Global.sList.Redim(-1,-1)
+
+
+
+F.Intrinsic.Control.CallSub(PopContacts)
+F.Intrinsic.Control.CallSub(Popdefaulttext)
+f.Intrinsic.Control.CallSub(format_grid)
+Gui.F_ContactList..Show
+
+F.Intrinsic.Control.ExitSub
+
+f.Intrinsic.Control.catch
+f.Intrinsic.Control.CallSub(catching,"sub",v.Ambient.CurrentSubroutine,"errorno",v.Ambient.ErrorNumber,"errordesc",v.Ambient.ErrorDescription,"program",v.Ambient.ScriptFile)
+f.Intrinsic.Control.EndTry
+Program.Sub.Main.End
+
+Program.Sub.cmdadd_click.Start
+V.Local.i.Declare(Long)
+V.Local.bFound.Declare(Boolean,False)
+v.Local.iKey.Declare
+v.Local.sEmail.Declare
+v.Local.sName.Declare
+
+f.Intrinsic.Control.BlockEvents
+''Exit if no email selected or enetered
+F.Intrinsic.Control.If(V.Screen.F_ContactList!txtEmail.Text,<>,"")
+	v.Local.sEmail.Set(V.Screen.F_ContactList!txtEmail.Text)
+'	f.Intrinsic.Control.If(v.Screen.F_ContactList!cboContact.text,<>,"")
+		v.Local.iKey.Set(v.dictionary.dcKeys![v.Local.sEmail])
+		f.Intrinsic.Control.If(v.Local.iKey,=,99)
+'			f.Data.DataTable.Compute("contacts","max(Alt_ID) + 1","",V.Local.iKey)
+			f.Intrinsic.Math.Add(v.Global.iMaxAltID,1,v.Global.iMaxAltID)
+			f.Intrinsic.String.Build("{0}*!*{1}",v.Screen.F_ContactList!cboContact.text,v.Local.sEmail,v.Local.sName)
+			f.Data.Dictionary.AddItem("Recipients",v.Local.iKey,v.Local.sName)
+			gui.F_ContactList.lvwEmails.AddListItem(v.Local.iKey,v.Local.sName)
+		f.Intrinsic.Control.Else
+			f.Intrinsic.String.Build("{0}*!*{1}",v.Screen.F_ContactList!cboContact.text,v.Local.sEmail,v.Local.sName)
+			f.Data.Dictionary.AddItem("Recipients",v.Local.iKey,v.Local.sName)
+			gui.F_ContactList.lvwEmails.AddListItem(v.Local.iKey,v.Local.sName)
+		f.Intrinsic.Control.EndIf
+		
+'	f.Intrinsic.Control.Else
+'		f.Intrinsic.UI.Msgbox("Select a name from the drop down, or type a name for the recipient")
+'	f.Intrinsic.Control.EndIf
+F.Intrinsic.Control.EndIf
+
+'Clear email selection
+Gui.F_ContactList.cboContact.ListIndex(0)
+Gui.F_ContactList.txtEmail.Text("")
+f.Intrinsic.Control.UnBlockEvents
+Program.Sub.cmdadd_click.End
+
+Program.Sub.f_contactlist_unload.Start
+F.Intrinsic.Control.If(V.ODBC.con.State,=,1)
+	F.ODBC.Connection!con.close
+F.Intrinsic.Control.Endif
+F.Intrinsic.Control.End
+Program.Sub.f_contactlist_unload.End
+
+Program.Sub.cmdremove_click.Start
+V.Local.i.Declare(Long)
+V.Local.iStart.Declare(Long)
+V.Local.iEnd.Declare(Long)
+V.Local.iTemp.Declare(Long)
+v.Local.iKey.Declare
+V.Local.bFound.Declare(Boolean)
+v.Local.sTemp.Declare
+
+'Exit if no email selected in list
+
+
+v.Local.sTemp.Set(v.Screen.F_ContactList!lvwEmails.SelectedItemText)
+'f.Intrinsic.String.Split(v.Local.sTemp,"*!*",v.Local.sTemp)
+f.Intrinsic.Control.If(v.Local.sTemp.IsNotNullOrWhiteSpace)
+	f.Data.Dictionary.ReturnKeyFromValue("Recipients",v.Local.sTemp,v.Local.iKey)
+	gui.F_ContactList.lvwEmails.RemoveItem(v.Local.iKey)
+	f.Data.Dictionary.RemoveItem("Recipients",v.Local.iKey)
+	F.Intrinsic.Control.ExitSub
+F.Intrinsic.Control.EndIf
+
+
+'Clear email selection
+Gui.F_ContactList.cboContact.ListIndex(0)
+Gui.F_ContactList.txtEmail.Text("")
+Program.Sub.cmdremove_click.End
+
+Program.Sub.cmdsend_click.Start
+f.Intrinsic.Control.Try
+v.local.serror.declare
+
+V.Local.i.Declare
+v.Local.bSplit.Declare
+v.Local.iCount.Declare
+V.Local.sRcptEmail.Declare
+V.Local.sRcptName.Declare
+V.Local.sSenderEmail.Declare
+V.Local.sSenderName.Declare
+V.Local.sAttach.Declare
+v.Local.sMerge.Declare
+V.Local.sParamName.Declare
+V.Local.sParamVal.Declare
+V.Local.sTemp.Declare
+V.Local.sPN.Declare
+V.Local.sPV.Declare
+V.Local.sCallParams.Declare
+V.Local.sText.Declare
+V.Local.sCRLF.Declare
+v.Local.iUserID.Declare
+v.Local.iKey.Declare
+V.Local.sFromEmail.Declare
+V.Local.sRecipients.Declare
+v.Local.sFile.Declare
+v.Local.sPath.Declare
+v.Local.bOutlook.Declare
+v.Local.iBIRUNID.Declare
+v.Local.iBILogID.Declare
+v.Local.sBIRptID.Declare
+v.Local.sSQL.Declare
+v.Local.sLogo.Declare
+
+
+'Get Report Logo (Added by PG 1/9/2018)
+V.Local.sSQL.Set("SELECT Text1 FROM OP_HEADER where ID = 401046")
+F.ODBC.Connection!con.ExecuteAndReturn(V.Local.sSql,v.Local.sLogo)
+
+'f.Global.BI.GetRunID(v.Local.iBIRUNID)
+'f.Global.BI.StartLogging(v.Local.iBIRUNID,1,-1,"",V.Local.iBILogID)
+
+'f.Automation.MSOutlook.CheckPresence(v.Local.bOutlook)
+gui.F_ContactList.ggcAttach.visible(False)
+gui.F_ContactList.lvwEmails.RetrieveAllListItems(v.Local.sAttach)
+
+'End script if no emails added to list
+F.Intrinsic.Control.If(V.Local.sAttach.IsNullOrWhiteSpace)
+	F.Intrinsic.Control.CallSub(f_contactlist_unload)
+F.Intrinsic.Control.EndIf
+
+'get the ID's from the listView and get the names/emails from the dictionary(Recipients)
+f.Intrinsic.String.IsInString(v.Local.sAttach,"*!*",False,v.Local.bSplit)
+f.Intrinsic.Control.If(v.Local.bSplit)
+	f.Intrinsic.String.Split(v.Local.sAttach,"*!*",v.Local.iKey)
+	f.Intrinsic.Control.For(v.Local.i,0,v.Local.iKey.UBound,1)
+		f.Intrinsic.Control.If(v.Local.i,=,0)
+			v.Local.sRecipients.Set(v.dictionary.Recipients![v.Local.iKey(v.Local.i)])
+		f.Intrinsic.Control.Else
+			f.Intrinsic.String.Build("{0}@!@{1}",v.Local.sRecipients,v.Dictionary.Recipients![v.Local.iKey(v.Local.i)],v.Local.sRecipients)
+		f.Intrinsic.Control.EndIf
+	f.Intrinsic.Control.Next(v.Local.i)
+F.Intrinsic.Control.Else
+	v.Local.sRecipients.Set(v.Dictionary.Recipients![v.Local.sAttach])
+f.Intrinsic.Control.EndIf
+
+'Get email address of GS User
+F.Global.Security.GetUserEmail(V.Caller.User,V.Local.sSenderEmail)
+	'Alert and end script if no email found for GS User
+	F.Intrinsic.control.if(V.Local.sSenderEmail.IsNullOrWhiteSpace)
+		F.Intrinsic.UI.Msgbox("Error in email procedure.  The GS User does not have an email address associated with it in User Security Maintenance.")
+		F.Intrinsic.Control.CallSub(f_contactlist_unload)
+	f.Intrinsic.Control.Else
+		'get users full name and build the senderEmail*!*senderName
+		F.Global.Security.GetFullName(V.Caller.User,V.Local.sSenderName)
+		F.Intrinsic.String.Build("{0}*!*{1}",V.Local.sSenderEmail,V.Local.sSenderName,V.Local.sFromEmail)
+	F.Intrinsic.control.endif
+
+
+'Set attachment filename and path
+'f.Intrinsic.String.Build("{0}\Custom\4463\{1}\Quotes\Attachments\Quote {1}.pdf",V.Caller.GlobalDir,v.Caller.CompanyCode,v.Global.sQuote,v.Local.sAttach)
+
+F.Intrinsic.String.Build("{0}\Custom\6930\{1}\Quotes\Attachments\",V.Caller.GlobalDir,v.Caller.CompanyCode,v.Local.sTemp)
+f.Intrinsic.String.Build("Quote {0}.pdf",V.Global.sQuote,V.Local.sAttach)
+F.Intrinsic.String.Build("{0}{1}",V.Local.sTemp,V.Local.sAttach,V.Local.sText)
+f.Data.DataTable.AddRow("attachments","FILE",v.Local.sAttach,"PATH",v.Local.sTemp,"EXTENSION","PDF","FILEFQN",V.Local.sText,"SORTKEY",1)
+
+'Call GS program to build BI table data
+
+'F.Intrinsic.String.Concat(V.Global.sQuote,"!*!S!*! !*!N!*!N",V.Local.sCallParams)
+F.Global.General.CallWrapperSyncBio(920000,V.Global.sQuote)
+
+F.Global.BI.StopLogging(V.Local.iBILogID)
+
+f.Intrinsic.Control.CallSub(GetRptId)
+
+f.Intrinsic.String.LPad(v.Args.RptID,"0",6,v.Local.sBIRptID)
+
+
+'Call BI Quote report
+V.Local.sPN.Set("Terminal*!*REPORTID*!*REV*!*QTYDEC*!*PRTEXT*!*PRTTOT*!*PRTALL*!*COMMENTS*!*LOGO")
+F.Intrinsic.String.Build("{0}*!*{1}*!* *!* *!*Y*!*Y*!* *!* *!*{2}",v.Caller.Terminal,v.Local.sBIRptID,V.Local.sLogo.Trim,V.Local.sPV)
+F.Intrinsic.String.Split(V.Local.sPN,"*!*",V.Local.sParamName)
+F.Intrinsic.String.Split(V.Local.sPV,"*!*",V.Local.sParamVal)
+F.Global.BI.SaveReport(v.Local.sBIRptID,1,V.Local.sParamName,V.Local.sParamVal,v.Local.sText)
+'f.Global.BI.StopLogging(v.Local.iBILogID)
+'f.Global.BI.RunReportPreProcessor(V.Local.iBIRunID,v.Local.iBILogID,V.Local.sPN,V.Local.sPV,"",4,True,"",-1,"",0,v.Local.sText,"",v.Local.iBILogID)
+
+'merge all PDF documents in to one if there are attachments
+f.Data.DataView.Create("attachments","dvAttachments",22,"EXTENSION = 'PDF'","SORTKEY DESC")
+F.Intrinsic.Control.If(V.DataView.attachments!dvAttachments.RowCount,>,1)
+	f.Data.DataView.ToDataTable("attachments","dvAttachments","temp",True)
+	f.Data.DataTable.ColumnToString("temp","FILEFQN",v.Local.sAttach)
+	f.Intrinsic.String.Replace(v.Local.sText,"\Quote ","\Attachment ",v.Local.sText)
+	f.Automation.PDF.Merge(v.Local.sAttach,v.Local.sText)
+F.Intrinsic.Control.EndIf
+
+'f.Intrinsic.Control.If(v.Local.bOutlook,=,False)
+
+	'split apart sText and format correctly
+	f.Intrinsic.File.GetFileNameFromFQN(v.Local.sText,v.Local.sFile)
+	f.Intrinsic.File.GetPathFromFQN(v.Local.sText,v.Local.sPath)
+	f.Intrinsic.String.Build("{0}*!*{1}\",v.Local.sFile,v.Local.sPath,v.Local.sAttach)
+	
+'f.Intrinsic.Control.Else
+'	v.Local.sAttach.Set(v.Local.sText)
+'f.Intrinsic.Control.EndIf
+
+f.Data.DataView.SetFilter("attachments","dvAttachments","EXTENSION <> 'PDF'")
+'attach any other files that are not PDF
+F.Intrinsic.Control.If(v.DataView.attachments!dvAttachments.RowCount,>,0)
+'	f.Intrinsic.Control.If(v.Local.bOutlook)
+'		f.Intrinsic.Control.For(v.Local.i,0,v.DataView.attachments!dvAttachments.RowCount--,1)
+'			f.Intrinsic.String.Build("{0}*!*{1}",v.Local.sAttach,v.DataView.attachments!dvAttachments(v.Local.i).FILEFQN!FIELDVALTRIM,V.Local.sAttach)
+'		f.Intrinsic.Control.Next(v.Local.i)
+'	f.Intrinsic.Control.Else
+		f.Intrinsic.Control.For(v.Local.i,0,v.DataView.attachments!dvAttachments.RowCount--,1)
+			f.Intrinsic.String.Build("{0}@!@{1}*!*{2}\",v.Local.sAttach,v.DataView.attachments!dvAttachments(v.Local.i).FILE!FIELDVALTRIM,v.DataView.attachments!dvAttachments(v.Local.i).PATH!FIELDVALTRIM,V.Local.sAttach)
+		f.Intrinsic.Control.Next(v.Local.i)
+'	f.Intrinsic.Control.EndIf
+F.Intrinsic.Control.EndIf
+
+
+f.Global.Security.GetUserId(v.Caller.User,v.Caller.CompanyCode,v.Local.iUserID)
+
+V.Local.sText.Set(V.Screen.F_ContactList!mltxtBody.Text)
+'Replace LF by CRLF on the file to avoid email server issues with LF character 
+F.Intrinsic.String.Concat(v.ASCII.13,v.ASCII.10,v.Local.sCRLF)'CRLF
+F.Intrinsic.String.Replace(V.Local.sText,v.ASCII.10,v.Local.sCRLF,V.Local.sText)
+
+
+'f.Intrinsic.Control.If(v.Local.bOutlook)
+'	f.Automation.MSOutlook.ComposeEmailHTML(V.Local.sRecipients,V.Screen.F_ContactList!txtSubject.text,V.Local.sText,v.Local.sAttach)
+'f.Intrinsic.Control.Else
+	F.Global.Messaging.QueueMessage(V.Caller.CompanyCode,v.Local.iUserID,"GCG_6930_Email_Quote.g2u",V.Screen.F_ContactList!txtSubject.text,V.Local.sFromEmail,V.Local.sRecipients,V.Local.sText,5,,False,,,,,,,,V.Local.sAttach,False)
+'f.Intrinsic.Control.EndIf
+'End script
+F.Intrinsic.Control.CallSub(f_contactlist_unload)
+
+
+F.Intrinsic.Control.ExitSub
+
+f.Intrinsic.Control.catch
+f.Intrinsic.Control.CallSub(catching,"sub",v.Ambient.CurrentSubroutine,"errorno",v.Ambient.ErrorNumber,"errordesc",v.Ambient.ErrorDescription,"program",v.Ambient.ScriptFile)
+f.Intrinsic.Control.EndTry
+Program.Sub.cmdsend_click.End
+
+Program.Sub.cbocontact_click.Start
+V.Local.iPos.Declare(Long)
+V.Local.sEmail.Declare(String)
+
+F.Intrinsic.Control.If(V.Screen.F_ContactList!cboContact.Text,<>,"")
+	f.Data.Dictionary.ReturnKeyFromValue("dcEmail",V.Screen.F_ContactList!cboContact.Text,True,v.Local.sEmail)
+	Gui.F_ContactList.txtEmail.Text(v.Local.sEmail)
+F.Intrinsic.Control.Else
+	Gui.F_ContactList.txtEmail.Text("")
+F.Intrinsic.Control.endif
+Program.Sub.cbocontact_click.End
+
+Program.Sub.PopContacts.Start
+V.Local.sSQL.Declare(String)
+V.Local.sTemp.Declare(String)
+
+'Add blank item to drop down list
+Gui.F_ContactList.cboContact.AddItem("")
+
+F.Intrinsic.String.Build("Select UCASE(RTRIM(Name)) AS Name, Alt_ID, UCASE(RTRIM(Email1)) AS EMAIL, Email2, Name_Last, Name_First from Contact where Cust='{0}' and Type='{1}' order by Name_Last, Name_First",V.Global.sCust,V.Global.sType,V.Local.sSQL)
+f.Data.DataTable.CreateFromSQL("contacts","con",v.Local.sSQL,True)
+
+
+f.Data.DataTable.SetSeries("contacts","Alt_ID",0,1)
+f.Data.DataTable.Compute("contacts","max(Alt_ID)","",V.Global.iMaxAltID)
+f.Data.Dictionary.CreateFromDatatable("dcEmail","contacts","Email","Name")
+f.Data.Dictionary.SetDefaultReturn("dcEmail","99")
+f.Data.Dictionary.CreateFromDatatable("dcKeys","contacts","Email","Alt_ID")
+f.Data.Dictionary.SetDefaultReturn("dcKeys","99")
+f.Data.Dictionary.CreateFromDatatable("dcEmails","contacts","Email","Name")
+f.Data.Dictionary.CreateFromDatatable("dcKeyName","contacts","Alt_ID","Name")
+f.Data.Dictionary.SetDefaultReturn("dcKeyName","")
+f.Data.Dictionary.CreateFromDatatable("dcKeyEmail","contacts","Alt_ID","Email")
+f.Data.Dictionary.Create("Recipients")
+
+gui.F_ContactList.cboContact.AddItems("Dictionary","dcEmails")
+
+'set the default recipient from passed values
+f.Intrinsic.Control.If(v.Global.sEmail.Trim,>,"")
+	f.Intrinsic.Math.Add(v.Global.iMaxAltID,1,v.Global.iMaxAltID)
+	f.Intrinsic.String.Build("{0}*!*{1}",v.Global.sContact,v.Global.sEmail,v.Local.sTemp)
+	f.Data.Dictionary.AddItem("Recipients",v.Global.iMaxAltID,v.Local.sTemp)
+	gui.F_ContactList.lvwEmails.AddListItem(v.Global.iMaxAltID,v.Local.sTemp)
+f.Intrinsic.Control.EndIf
+
+Program.Sub.PopContacts.End
+
+Program.Sub.GetCustInfo.Start
+f.Intrinsic.Control.Try
+v.Local.sError.Declare
+V.Local.sQuery.Declare
+V.Local.sCustPO.Declare
+
+
+
+F.Intrinsic.String.Build("SELECT NAME_CUSTOMER FROM V_CUSTOMER_MASTER WHERE CUSTOMER = '{0}'",V.Global.sCust,V.Local.sQuery)
+f.ODBC.Connection!con.ExecuteAndReturn(v.Local.sQuery,v.Global.sCustName)
+
+F.Intrinsic.Control.ExitSub
+
+f.Intrinsic.Control.catch
+f.Intrinsic.Control.CallSub(catching,"sub",v.Ambient.CurrentSubroutine,"errorno",v.Ambient.ErrorNumber,"errordesc",v.Ambient.ErrorDescription,"program",v.Ambient.ScriptFile)
+f.Intrinsic.Control.EndTry
+Program.Sub.GetCustInfo.End
+
+Program.Sub.ggcAttach_RowClick.Start
+v.global.iRow.Set(v.Args.RowIndex)
+v.Local.iX.Declare
+v.Local.iY.Declare
+
+f.Intrinsic.API.GetMousePosition(v.Local.iX,v.Local.iY)
+f.Intrinsic.Control.If(v.Args.BUTTON,=,"Right")
+	gui.F_ContactList..ContextMenuShow("files",v.Local.iX,v.Local.iY)
+f.Intrinsic.Control.EndIf
+
+f.Intrinsic.Control.ExitSub
+
+Program.Sub.ggcAttach_RowClick.End
+
+Program.Sub.PopDefaultText.Start
+'Added 11-24-10 for USPLabs
+f.Intrinsic.Control.Try
+v.Local.sError.Declare
+V.Local.sFile.Declare(String)
+V.Local.sText.Declare(String)
+V.Local.bExists.Declare(Boolean)
+V.Local.sSubject.Declare(String)
+V.Local.sBody.Declare(String)
+
+f.Intrinsic.String.Build("{0}\Custom\6930\{1}\Templates\Quote.txt",V.Caller.GlobalDir,v.Caller.CompanyCode,v.Local.sFile)
+'F.Intrinsic.String.Concat(V.Caller.BusintDir,"\Custom\Quote.txt",V.Local.sFile)
+F.Intrinsic.File.Exists(V.Local.sFile,V.Local.bExists)
+F.Intrinsic.Control.If(V.Local.bExists)
+	
+	F.Intrinsic.Control.CallSub(Getcustinfo)
+	f.Intrinsic.Control.CallSub(Getsig)
+	
+	'loading the template file and replacing variables
+	F.Intrinsic.File.File2String(V.Local.sFile,V.Local.sText)
+	F.Intrinsic.String.Replace(V.Local.sText,"%QUOTE%",V.Global.sQuote,V.Local.sText)
+	f.Intrinsic.String.Replace(v.Local.sText,"%CONTACT%",V.Global.sContact,V.Local.sText)
+	F.Intrinsic.String.Replace(V.Local.sText,"%CUST%",V.Global.sCust,V.Local.sText)
+	f.Intrinsic.String.Replace(v.Local.sText,"%SIG%",V.Global.sSig,v.Local.sText)
+	F.Intrinsic.String.Split(V.Local.sText,"*!*",V.Local.sText)
+	
+	V.Local.sSubject.Set(V.Local.sText(0))
+	F.Intrinsic.Control.If(V.Local.sText.UBound,>,0)
+		V.Local.sBody.Set(V.Local.sText(1))
+	F.Intrinsic.Control.EndIf
+	
+	Gui.F_ContactList.txtSubject.Text(V.Local.sSubject)
+	Gui.F_ContactList.mltxtBody.Text(V.Local.sBody)
+f.Intrinsic.Control.EndIf
+
+F.Intrinsic.Control.ExitSub
+
+f.Intrinsic.Control.catch
+f.Intrinsic.Control.CallSub(catching,"sub",v.Ambient.CurrentSubroutine,"errorno",v.Ambient.ErrorNumber,"errordesc",v.Ambient.ErrorDescription,"program",v.Ambient.ScriptFile)
+f.Intrinsic.Control.EndTry
+Program.Sub.PopDefaultText.End
+
+Program.Sub.GetRptID.Start
+V.Local.sQuery.Declare(String)
+V.Local.sReportID.Declare(String)
+V.Local.sOrderNo.Declare(String)
+
+F.Intrinsic.String.LPad(V.Global.sQuote,"0",7,V.Local.sOrderNo)
+
+f.Intrinsic.String.Build("SELECT DISTINCT RPTID FROM V_BI_LASER_QUOTE WHERE QUOTE = '{0}' AND TERMINAL_NO = '{1}'",V.Local.sOrderNo,V.Caller.Terminal,V.Local.sQuery)
+F.ODBC.Connection!con.ExecuteAndReturn(v.Local.sQuery,v.Local.sReportID)
+
+F.Intrinsic.Control.If(v.Local.sReportID.IsNullOrWhiteSpace)
+	F.Intrinsic.UI.Msgbox("Unable to find Order Data.  Please contact Global Shop.")
+F.Intrinsic.Control.EndIf
+
+F.Intrinsic.Variable.AddRV("RptID",V.Local.sReportID)
+Program.Sub.GetRptID.End
+
+Program.Sub.cmdAttach_Click.Start
+f.Intrinsic.Control.Try
+v.Local.sError.Declare
+v.Local.sFile.Declare
+v.Local.sName.Declare
+v.Local.sPath.Declare
+v.Local.sExt.Declare
+
+
+'select random file to attach to quote
+f.Intrinsic.String.Build("{0}\Custom\6930\{1}\Quotes\Attachments\",V.Caller.GlobalDir,v.Caller.CompanyCode,v.Global.sAttachPath)
+'f.Intrinsic.String.Concat(v.Caller.BusintDir,"\Custom\attachments\",v.Global.sAttachPath)
+F.Intrinsic.UI.ShowOpenFileDialog("","*.pdf|*.pdf","",V.Local.sFIle)
+
+F.Intrinsic.Control.If(V.Local.sfile,<>,v.Ambient.Cancel)
+
+	f.Intrinsic.File.GetExtensionComponent(v.Local.sFile,v.Local.sExt)
+	f.Intrinsic.File.GetFileNameFromFQN(v.Local.sFile,v.Local.sName)
+	f.Intrinsic.File.GetPathFromFQN(v.Local.sFile,v.Local.sPath)
+	f.Data.DataTable.AddRow("attachments","FILE",V.Local.sName,"PATH",V.Local.sPath,"EXTENSION",V.Local.sExt,"FILEFQN",V.Local.sFile)
+F.Intrinsic.Control.endif
+
+F.Intrinsic.Control.ExitSub
+
+f.Intrinsic.Control.catch
+f.Intrinsic.Control.CallSub(catching,"sub",v.Ambient.CurrentSubroutine,"errorno",v.Ambient.ErrorNumber,"errordesc",v.Ambient.ErrorDescription,"program",v.Ambient.ScriptFile)
+f.Intrinsic.Control.EndTry
+Program.Sub.cmdAttach_Click.End
+
+Program.Sub.Getsig.Start
+f.Intrinsic.Control.Try
+v.Local.sError.Declare
+v.Local.sFile.Declare(String)
+v.Local.bExists.Declare(Boolean)
+V.Local.sUser.Declare(String)
+
+
+f.Intrinsic.String.Trim(v.Caller.User,v.Local.sUser)
+
+f.Intrinsic.String.Build("{0}\Custom\6930\{1}\Templates\{2}.txt",V.Caller.GlobalDir,v.Caller.CompanyCode,v.Local.sUser.Trim,v.Local.sFile)
+F.Intrinsic.File.Exists(V.Local.sFile,V.Local.bExists)
+F.Intrinsic.Control.If(V.Local.bExists)
+	f.Intrinsic.File.File2String(v.Local.sFile,v.Global.sSig)
+F.Intrinsic.Control.EndIf
+
+F.Intrinsic.Control.ExitSub
+
+f.Intrinsic.Control.catch
+f.Intrinsic.Control.CallSub(catching,"sub",v.Ambient.CurrentSubroutine,"errorno",v.Ambient.ErrorNumber,"errordesc",v.Ambient.ErrorDescription,"program",v.Ambient.ScriptFile)
+f.Intrinsic.Control.EndTry
+Program.Sub.Getsig.End
+
+Program.Sub.catching.Start
+v.Local.sError.declare(string)
+F.Intrinsic.String.Build("Project: {0}{1}Subroutine: {2}{1}Error Occurred {3} with description {4}","{5}",V.Ambient.NewLine,v.Args.sub,V.Args.errorno,V.args.errordesc,v.Args.program,V.Local.sError)
+f.Intrinsic.UI.Msgbox(v.Local.sError)
+f.Intrinsic.Control.End
+Program.Sub.catching.End
+
+Program.Sub.DragDrop.Start
+v.Local.sFile.Declare
+v.Local.sName.Declare
+v.Local.sPath.Declare
+v.Local.sExt.Declare
+V.Local.bMulti.Declare
+v.Local.iCount.Declare
+
+V.Local.sFile.Set(V.Args.FILES)
+
+f.Intrinsic.String.IsInString(V.Local.sFile,"*!*",False,v.Local.bMulti)
+
+'do we have multiple documents to attach?
+f.Intrinsic.Control.If(v.Local.bMulti)
+	f.Intrinsic.String.Split(V.Local.sFile,"*!*",V.Local.sFile)
+	F.Intrinsic.Control.For(V.Local.iCount,0,V.Local.sFile.UBound,1)
+		f.Intrinsic.File.GetExtensionComponent(v.Local.sFile(V.Local.iCount),v.Local.sExt)
+		f.Intrinsic.File.GetFileNameFromFQN(v.Local.sFile(V.Local.iCount),v.Local.sName)
+		f.Intrinsic.File.GetPathFromFQN(v.Local.sFile(V.Local.iCount),v.Local.sPath)
+		f.Data.DataTable.AddRow("attachments","FILE",V.Local.sName,"PATH",V.Local.sPath,"EXTENSION",V.Local.sExt,"FILEFQN",V.Local.sFile(V.Local.iCount))
+	F.Intrinsic.Control.Next(V.Local.iCount)
+F.Intrinsic.Control.Else
+	f.Intrinsic.File.GetExtensionComponent(v.Local.sFile,v.Local.sExt)
+	f.Intrinsic.File.GetFileNameFromFQN(v.Local.sFile,v.Local.sName)
+	f.Intrinsic.File.GetPathFromFQN(v.Local.sFile,v.Local.sPath)
+	f.Data.DataTable.AddRow("attachments","FILE",V.Local.sName,"PATH",V.Local.sPath,"EXTENSION",V.Local.sExt,"FILEFQN",V.Local.sFile)
+f.Intrinsic.Control.EndIf
+Program.Sub.DragDrop.End
+
+Program.Sub.open_file.Start
+v.Local.sFile.Declare
+v.Local.sPath.Declare
+
+v.Local.sFile.Set(v.DataTable.attachments(v.Global.iRow).FILE!FIELDVALTRIM)
+V.Local.sPath.Set(V.DataTable.attachments(V.Global.iRow).PATH!FIELDVALTRIM)
+F.Intrinsic.Task.ShellExec(0,"OPEN",V.Local.sFile,"",V.Local.sPath,0)
+
+Program.Sub.open_file.End
+
+Program.Sub.delete_file.Start
+F.Data.DataTable.DeleteRow("attachments",V.Global.iRow)
+Program.Sub.delete_file.End
+
+Program.Sub.format_grid.Start
+gui.F_ContactList.ggcAttach.DataSource("attachments")
+gui.F_ContactList.ggcAttach.AddGridviewFromDatatable("gvAttach","attachments")
+
+gui.F_ContactList.ggcAttach.SetColumnProperty("gvAttach","FILE","Caption","FILE NAME")
+gui.F_ContactList.ggcAttach.SetColumnProperty("gvAttach","FILE","ReadOnly",True)
+gui.F_ContactList.ggcAttach.SetColumnProperty("gvAttach","FILE","AllowEdit",False)
+gui.F_ContactList.ggcAttach.SetColumnProperty("gvAttach","FILE","HeaderFontBold",True)
+gui.F_ContactList.ggcAttach.SetColumnProperty("gvAttach","FILE","HeaderHAlignment","Near")
+gui.F_ContactList.ggcAttach.SetColumnProperty("gvAttach","PATH","Visible",False)
+gui.F_ContactList.ggcAttach.SetColumnProperty("gvAttach","EXTENSION","Visible",False)
+gui.F_ContactList.ggcAttach.SetColumnProperty("gvAttach","FILEFQN","Visible",False)
+gui.F_ContactList.ggcAttach.SetColumnProperty("gvAttach","SORTKEY","Visible",False)
+
+Program.Sub.format_grid.End
+
+Program.Sub.Comments.Start
+${$0$}$$}$DFINCH$}$3/5/2017 6:41:50 PM$}$False
+${$4$}$0$}$$}$0$}$-1$}$DFINCH$}$3/5/2017$}$Modified to include multiple attachments (pdf only).  All attachments, including the quote, are merged to a single document before sending email.
+${$5$}$2.0.0.0$}$2
+${$6$}$tsmith$}$20221006143008370$}$xqPbj9atw05FglvzeFsZ9cqXP+qvG6tXSc9+/WltABVI/ohgUq1gXDvF1y/2Ex53yl+VYPnUzWs=
+Program.Sub.Comments.End

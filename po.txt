@@ -1,0 +1,11 @@
+Purchase Order %PO% *!*
+%CONTACT%
+%VENDOR%
+
+The variables are between % signs.  The * ! * separates the subject from the body.  This section here is where you would type your default order confirmation text.
+go edit the file GLOBAL\BUSINT\CUSTOM\PO.txt so it displays your standard purchase order text
+
+
+Also edit the file GLOBAL\BUSINT\CUSTOM\example sig.txt and SAVE AS your user ID.txt (do this for each user that needs a signature)
+
+%SIG%
